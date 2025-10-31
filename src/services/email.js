@@ -13,7 +13,7 @@ const transporter = nodemailer.createTransport({
 const SibApiV3Sdk = require('sib-api-v3-sdk');
 
 const defaultClient = SibApiV3Sdk.ApiClient.instance;
-defaultClient.authentications['api-key'].apiKey = "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";
+defaultClient.authentications['api-key'].apiKey = process.env.SENDINBLUE_API_KEY;
 
 const apiInstance = new SibApiV3Sdk.TransactionalEmailsApi();
 
