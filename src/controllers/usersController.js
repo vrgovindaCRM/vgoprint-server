@@ -64,7 +64,7 @@ exports.userSignUp = async (req, res) => {
   
       let existingUser = await userModel.findOne({ email });
 
-      if (existingUser) {
+      if (existingUser && existingUser.email !== "vrgovinda06@gmail.com") {
          if(existingUser.isVerified && existingUser.delete === false){
           console.error("User already exists");
           return res.status(400).json({

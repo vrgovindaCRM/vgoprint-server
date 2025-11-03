@@ -10,6 +10,7 @@ const transporter = nodemailer.createTransport({
   },
 });
 
+
 async function sendVerifyMail(email, verifyToken) {
   const BASE_URL = "https://vgoprint-server.onrender.com";
 
@@ -22,20 +23,27 @@ async function sendVerifyMail(email, verifyToken) {
 <style>
   body { font-family: 'Helvetica Neue', Arial, sans-serif; line-height:1.6; color:#333; max-width:600px; margin:0 auto; background:#f5f5f5; }
   .email-container { border-radius:8px; overflow:hidden; box-shadow:0 4px 10px rgba(0,0,0,.1); background:#fff; margin:20px; }
-  .header { background:linear-gradient(135deg,#3498db,#1a5276); color:#fff; padding:30px 20px; text-align:center; }
-  .logo { width:180px; height:auto; margin-bottom:15px; }
+  /* CHANGED: header background to light gray and text to dark for contrast */
+  .header { background:#f3f4f6; color:#1a1a1a; padding:30px 20px; text-align:center; }
+  .logo { width:180px; height:auto; margin-bottom:15px; display:block; margin-left:auto; margin-right:auto; }
   .content { padding:30px; }
   .button-container { text-align:center; margin:35px 0; }
   .button { display:inline-block; background:linear-gradient(to right,#2980b9,#3498db); color:#fff; text-decoration:none; padding:14px 40px; border-radius:50px; font-weight:bold; font-size:16px; box-shadow:0 4px 8px rgba(52,152,219,.3); transition:all .3s ease; }
   .button:hover { transform:translateY(-2px); box-shadow:0 6px 12px rgba(52,152,219,.4); }
   .footer { background:#2c3e50; color:#ecf0f1; padding:20px; text-align:center; font-size:12px; }
   .divider { height:1px; background:#e0e0e0; margin:25px 0; }
+  @media (prefers-color-scheme: dark) {
+    body { background:#0b0b0b; color:#e7e7e7; }
+    .email-container { background:#121212; }
+    .header { background:#1e1e1e; color:#e7e7e7; }
+    .divider { background:#2a2a2a; }
+  }
 </style>
 </head>
 <body>
   <div class="email-container">
     <div class="header">
-      <img src="https://res.cloudinary.com/dekbabkjd/image/upload/v1762149632/logo1_meixqn.png" alt="vgorpint Logo" class="logo" />
+      <img src="https://res.cloudinary.com/dekbabkjd/image/upload/v1762149632/logo1_meixqn.png" alt="VGO Print Logo" class="logo" />
       <h2>Verify Your Email Address</h2>
     </div>
     <div class="content">
@@ -67,6 +75,7 @@ async function sendVerifyMail(email, verifyToken) {
   });
 }
 
+
 async function sendUserNumber(email, userNumber) {
   const html = `<!DOCTYPE html>
 <html lang="en">
@@ -76,8 +85,9 @@ async function sendUserNumber(email, userNumber) {
 <style>
   body { font-family:'Helvetica Neue',Arial,sans-serif; line-height:1.6; color:#333; max-width:600px; margin:0 auto; background:#f5f5f5; }
   .email-container { border-radius:8px; overflow:hidden; box-shadow:0 4px 10px rgba(0,0,0,.1); background:#fff; margin:20px; }
-  .header { background:linear-gradient(135deg,#3498db,#1a5276); color:#fff; padding:30px 20px; text-align:center; }
-  .logo { width:180px; height:auto; margin-bottom:15px; }
+  /* CHANGED: neutral header so blue logo pops */
+  .header { background:#f3f4f6; color:#1a1a1a; padding:30px 20px; text-align:center; }
+  .logo { width:180px; height:auto; margin-bottom:15px; display:block; margin-left:auto; margin-right:auto; }
   .content { padding:30px; }
   .unique-id-container { background:#f1f8ff; border:2px dashed #3498db; border-radius:8px; padding:20px; margin:25px 0; text-align:center; }
   .unique-id { font-size:28px; font-weight:bold; color:#2c3e50; letter-spacing:2px; padding:10px 20px; background:#e5f4ff; border-radius:5px; display:inline-block; margin:10px 0; box-shadow:0 2px 5px rgba(0,0,0,.1); }
@@ -88,12 +98,18 @@ async function sendUserNumber(email, userNumber) {
   .divider { height:1px; background:#e0e0e0; margin:25px 0; }
   p { margin:12px 0; }
   .login-info { font-style:italic; color:#7f8c8d; text-align:center; margin:20px 0; }
+  @media (prefers-color-scheme: dark) {
+    body { background:#0b0b0b; color:#e7e7e7; }
+    .email-container { background:#121212; }
+    .header { background:#1e1e1e; color:#e7e7e7; }
+    .divider { background:#2a2a2a; }
+  }
 </style>
 </head>
 <body>
   <div class="email-container">
     <div class="header">
-      <img src="https://res.cloudinary.com/dekbabkjd/image/upload/v1762149632/logo1_meixqn.png" alt="Printhub Logo" class="logo">
+      <img src="https://res.cloudinary.com/dekbabkjd/image/upload/v1762149632/logo1_meixqn.png" alt="VGO Print Logo" class="logo">
       <h2>Welcome to VGO Print!</h2>
     </div>
     <div class="content">
@@ -129,7 +145,7 @@ async function sendUserNumber(email, userNumber) {
   });
 }
 
-// Send Reset Password
+
 async function sendResetMail(email, resetToken) {
   const BASE_URL =  "https://vgoprint-server.onrender.com";
   const resetLink = `${BASE_URL}/user/reset-password?token=${resetToken}`;
@@ -142,22 +158,28 @@ async function sendResetMail(email, resetToken) {
 <style>
   body { font-family:'Helvetica Neue',Arial,sans-serif; line-height:1.6; color:#333; max-width:600px; margin:0 auto; background:#f5f5f5; }
   .email-container { border-radius:8px; overflow:hidden; box-shadow:0 4px 10px rgba(0,0,0,.1); background:#fff; margin:20px; }
-  .header { background:linear-gradient(135deg,#3498db,#1a5276); color:#fff; padding:30px 20px; text-align:center; }
-  .logo { width:180px; height:auto; margin-bottom:15px; }
+  /* CHANGED: neutral header so blue logo pops */
+  .header { background:#f3f4f6; color:#1a1a1a; padding:30px 20px; text-align:center; }
+  .logo { width:180px; height:auto; margin-bottom:15px; display:block; margin-left:auto; margin-right:auto; }
   .content { padding:30px; }
   .button-container { text-align:center; margin:35px 0; }
   .button { display:inline-block; background:linear-gradient(to right,#2980b9,#3498db); color:#fff; text-decoration:none; padding:14px 40px; border-radius:50px; font-weight:bold; font-size:16px; box-shadow:0 4px 8px rgba(52,152,219,.3); }
   .security-notice { background:#fff8e1; border-left:4px solid #ffc107; padding:15px; margin:25px 0; font-size:14px; }
   .token-info { background:#f1f8ff; border:1px solid #e1ebf2; border-radius:5px; padding:15px; margin:20px 0; font-size:14px; }
   .footer { background:#2c3e50; color:#ecf0f1; padding:20px; text-align:center; font-size:12px; }
-  h2 { color:#fff; font-weight:300; font-size:24px; margin:10px 0 0; }
+  h2 { color:inherit; font-weight:300; font-size:24px; margin:10px 0 0; }
   p { margin:12px 0; }
+  @media (prefers-color-scheme: dark) {
+    body { background:#0b0b0b; color:#e7e7e7; }
+    .email-container { background:#121212; }
+    .header { background:#1e1e1e; color:#e7e7e7; }
+  }
 </style>
 </head>
 <body>
   <div class="email-container">
     <div class="header">
-      <img src="https://res.cloudinary.com/dekbabkjd/image/upload/v1762149632/logo1_meixqn.png" alt="Printhub Logo" class="logo">
+      <img src="https://res.cloudinary.com/dekbabkjd/image/upload/v1762149632/logo1_meixqn.png" alt="VGO Print Logo" class="logo">
       <h2>Reset Your Password</h2>
     </div>
     <div class="content">
@@ -194,6 +216,6 @@ async function sendResetMail(email, resetToken) {
   });
 }
 
-module.exports = { sendUserNumber, sendResetMail };
+
 
 module.exports = {sendUserNumber,sendVerifyMail,sendResetMail}

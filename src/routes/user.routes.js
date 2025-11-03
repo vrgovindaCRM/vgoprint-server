@@ -3,8 +3,8 @@ const { userSignUp, userLogin, verifyMail, forgetPassword, resetPassword, getUse
 const upload = require('../middlewares/multer');
 const { auth } = require('../middlewares/authMiddleware');
 const userRoute = express.Router();
-
-userRoute.post('/signup',userSignUp);
+ 
+userRoute.post('/signup',userSignUp); 
 userRoute.get('/verify/:verificationToken',verifyMail);
 userRoute.post('/login',userLogin)
 userRoute.post('/forget-password',forgetPassword)
