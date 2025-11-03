@@ -1,152 +1,83 @@
 const nodemailer = require("nodemailer");
 
 const transporter = nodemailer.createTransport({
-  host: "smtp-relay.brevo.com",
-  port: 587,
-  secure: false, 
+  host: "smtp.gmail.com",
+  port: 465,
+  secure: true, 
   auth: {
-    user: "9952be002@smtp-brevo.com", 
-    pass: "mBhIXYCgDVHyOMvS",       
+    user: "pashupatinathsingh6@gmail.com", 
+    pass: "qyue tfso cnvc gdrc",       
   },
 });
 
 const SibApiV3Sdk = require('sib-api-v3-sdk');
 
 const defaultClient = SibApiV3Sdk.ApiClient.instance;
-defaultClient.authentications['api-key'].apiKey = process.env.SENDINBLUE_API_KEY;
 
+const API_KEY = process.env.BREVO_API_KEY;  
+console.log(API_KEY)     
+if (!API_KEY) {
+  throw new Error('BREVO_API_KEY is not set');
+}
+defaultClient.authentications['api-key'].apiKey = API_KEY;
 const apiInstance = new SibApiV3Sdk.TransactionalEmailsApi();
 
- const sendVerifyMail = async (email, verifyToken) => {
-  try {
-    const sendSmtpEmail = {
-      sender: { name: "VGO PRINT", email: "vrgovinda06@gmail.com" },
-      to: [{ email }],
-      subject: "Verify your email address",
-      htmlContent: `<!DOCTYPE html>
+async function sendVerifyMail(email, verifyToken) {
+  const BASE_URL = process.env.APP_BASE_URL || "https://vgoprint-server.onrender.com";
+
+  const html = `<!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Verify Your Email</title>
-    <style>
-        body {
-            font-family: 'Helvetica Neue', Arial, sans-serif;
-            line-height: 1.6;
-            color: #333333;
-            max-width: 600px;
-            margin: 0 auto;
-            padding: 0;
-            background-color: #f5f5f5;
-        }
-        .email-container {
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-            background-color: #ffffff;
-            margin: 20px;
-        }
-        .header {
-            background: linear-gradient(135deg, #3498db, #1a5276);
-            color: white;
-            padding: 30px 20px;
-            text-align: center;
-        }
-        .logo {
-            width: 180px;
-            height: auto;
-            margin-bottom: 15px;
-        }
-        .content {
-            padding: 30px;
-        }
-        .button-container {
-            text-align: center;
-            margin: 35px 0;
-        }
-        .button {
-            display: inline-block;
-            background: linear-gradient(to right, #2980b9, #3498db);
-            color: #ffffff;
-            text-decoration: none;
-            padding: 14px 40px;
-            border-radius: 50px;
-            font-weight: bold;
-            font-size: 16px;
-            box-shadow: 0 4px 8px rgba(52, 152, 219, 0.3);
-            transition: all 0.3s ease;
-        }
-        .button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 12px rgba(52, 152, 219, 0.4);
-        }
-        .footer {
-            background-color: #2c3e50;
-            color: #ecf0f1;
-            padding: 20px;
-            text-align: center;
-            font-size: 12px;
-        }
-        .footer a {
-            color: #3498db;
-            text-decoration: none;
-        }
-        .footer a:hover {
-            text-decoration: underline;
-        }
-        .divider {
-            height: 1px;
-            background-color: #e0e0e0;
-            margin: 25px 0;
-        }
-        h2 {
-            color: #ffffff;
-            font-weight: 300;
-            font-size: 24px;
-            margin: 10px 0 0 0;
-        }
-        p {
-            margin: 12px 0;
-        }
-    </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Verify Your Email</title>
+<style>
+  body { font-family: 'Helvetica Neue', Arial, sans-serif; line-height:1.6; color:#333; max-width:600px; margin:0 auto; background:#f5f5f5; }
+  .email-container { border-radius:8px; overflow:hidden; box-shadow:0 4px 10px rgba(0,0,0,.1); background:#fff; margin:20px; }
+  .header { background:linear-gradient(135deg,#3498db,#1a5276); color:#fff; padding:30px 20px; text-align:center; }
+  .logo { width:180px; height:auto; margin-bottom:15px; }
+  .content { padding:30px; }
+  .button-container { text-align:center; margin:35px 0; }
+  .button { display:inline-block; background:linear-gradient(to right,#2980b9,#3498db); color:#fff; text-decoration:none; padding:14px 40px; border-radius:50px; font-weight:bold; font-size:16px; box-shadow:0 4px 8px rgba(52,152,219,.3); transition:all .3s ease; }
+  .button:hover { transform:translateY(-2px); box-shadow:0 6px 12px rgba(52,152,219,.4); }
+  .footer { background:#2c3e50; color:#ecf0f1; padding:20px; text-align:center; font-size:12px; }
+  .divider { height:1px; background:#e0e0e0; margin:25px 0; }
+</style>
 </head>
 <body>
-    <div class="email-container">
-        <div class="header">
-            <img src="https://res.cloudinary.com/dekbabkjd/image/upload/v1741585959/products/yzgm2gr1drpkzdjvbdsk.png" alt="Printhub Logo" class="logo">
-            <h2>Verify Your Email Address</h2>
-        </div>
-        
-        <div class="content">
-            <p>Hello there,</p>
-            <p>Thank you for joining VGO PRINT! We're thrilled to have you on board.</p>
-            <p>To complete your registration, please verify your email address:</p>
-            <div class="button-container">
-                <a href="https://print-hub-server.onrender.com/user/verify/${verifyToken}" class="button">Verify Email</a>
-            </div>
-            <p>If you didn't create an account, you can ignore this email.</p>
-            <div class="divider"></div>
-            <p style="font-style: italic; color: #7f8c8d; text-align: center;">
-              Need help? Email us at <a href="mailto:vrgovinda06@gmail.com" style="color: #3498db;">vrgovinda06@gmail.com</a>
-            </p>
-        </div>
-        
-        <div class="footer">
-            <p>© 2025 Print-Hub. All rights reserved.</p>
-            <p>B-22, Indira Nagar, Museum Road, Chaura Maidan, Shimla - Himachal Pradesh 171004</p>
-        </div>
+  <div class="email-container">
+    <div class="header">
+      <img src="https://res.cloudinary.com/dekbabkjd/image/upload/v1741585959/products/yzgm2gr1drpkzdjvbdsk.png" alt="Printhub Logo" class="logo" />
+      <h2>Verify Your Email Address</h2>
     </div>
+    <div class="content">
+      <p>Hello there,</p>
+      <p>Thank you for joining VGO PRINT!</p>
+      <p>Please verify your email:</p>
+      <div class="button-container">
+        <a href="${BASE_URL}/user/verify/${verifyToken}" class="button">Verify Email</a>
+      </div>
+      <div class="divider"></div>
+      <p style="font-style:italic; color:#7f8c8d; text-align:center;">
+        Need help? <a href="mailto:vrgovinda06@gmail.com">vrgovinda06@gmail.com</a>
+      </p>
+    </div>
+    <div class="footer">
+      <p>© 2025 Print-Hub. All rights reserved.</p>
+      <p>B-22, Indira Nagar, Museum Road, Chaura Maidan, Shimla - Himachal Pradesh 171004</p>
+    </div>
+  </div>
 </body>
-</html>`,
-      textContent: `Verify your email: https://print-hub-server.onrender.com/user/verify/${verifyToken}`,
-    };
+</html>`;
 
-    const result = await apiInstance.sendTransacEmail(sendSmtpEmail);
-    console.log("✅ Email sent via Brevo API:", result);
-  } catch (error) {
-    console.error("❌ Error sending email:", error.response?.text || error.message);
-  }
-};
+  return transporter.sendMail({
+    from: 'VGO PRINT <pashupatinathsingh6@gmail.com>',
+    to: email,
+    subject: "Verify your email address",
+    html,
+    text: `Verify your email: ${BASE_URL}/user/verify/${verifyToken}`,
+  });
+}
 
 
 const sendUserNumber = async(email,userNumber) =>{
