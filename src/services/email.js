@@ -5,25 +5,13 @@ const transporter = nodemailer.createTransport({
   port: 465,
   secure: true, 
   auth: {
-    user: "pashupatinathsingh6@gmail.com", 
-    pass: "qyue tfso cnvc gdrc",       
+    user: "vrgovinda06@gmail.com", 
+    pass: "xsfs dadg bzko ycdv",       
   },
 });
 
-// const SibApiV3Sdk = require('sib-api-v3-sdk');
-
-// const defaultClient = SibApiV3Sdk.ApiClient.instance;
-
-// const API_KEY = process.env.BREVO_API_KEY;  
-// console.log(API_KEY)     
-// if (!API_KEY) {
-//   throw new Error('BREVO_API_KEY is not set');
-// }
-// defaultClient.authentications['api-key'].apiKey = API_KEY;
-// const apiInstance = new SibApiV3Sdk.TransactionalEmailsApi();
-
 async function sendVerifyMail(email, verifyToken) {
-  const BASE_URL = process.env.APP_BASE_URL || "https://vgoprint-server.onrender.com";
+  const BASE_URL = "https://vgoprint-server.onrender.com";
 
   const html = `<!DOCTYPE html>
 <html lang="en">
@@ -47,7 +35,7 @@ async function sendVerifyMail(email, verifyToken) {
 <body>
   <div class="email-container">
     <div class="header">
-      <img src="https://res.cloudinary.com/dekbabkjd/image/upload/v1741585959/products/yzgm2gr1drpkzdjvbdsk.png" alt="Printhub Logo" class="logo" />
+      <img src="https://res.cloudinary.com/dekbabkjd/image/upload/v1762149632/logo1_meixqn.png" alt="vgorpint Logo" class="logo" />
       <h2>Verify Your Email Address</h2>
     </div>
     <div class="content">
@@ -63,7 +51,7 @@ async function sendVerifyMail(email, verifyToken) {
       </p>
     </div>
     <div class="footer">
-      <p>© 2025 Print-Hub. All rights reserved.</p>
+      <p>© 2025 VGO Print. All rights reserved.</p>
       <p>B-22, Indira Nagar, Museum Road, Chaura Maidan, Shimla - Himachal Pradesh 171004</p>
     </div>
   </div>
@@ -71,7 +59,7 @@ async function sendVerifyMail(email, verifyToken) {
 </html>`;
 
   return transporter.sendMail({
-    from: 'VGO PRINT <pashupatinathsingh6@gmail.com>',
+    from: 'VGO PRINT <vrgovinda06@gmail.com>',
     to: email,
     subject: "Verify your email address",
     html,
@@ -84,7 +72,7 @@ async function sendUserNumber(email, userNumber) {
 <html lang="en">
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Welcome to Print-Hub - Your Unique ID</title>
+<title>Welcome to VGO Print - Your Unique ID</title>
 <style>
   body { font-family:'Helvetica Neue',Arial,sans-serif; line-height:1.6; color:#333; max-width:600px; margin:0 auto; background:#f5f5f5; }
   .email-container { border-radius:8px; overflow:hidden; box-shadow:0 4px 10px rgba(0,0,0,.1); background:#fff; margin:20px; }
@@ -105,12 +93,12 @@ async function sendUserNumber(email, userNumber) {
 <body>
   <div class="email-container">
     <div class="header">
-      <img src="https://res.cloudinary.com/dekbabkjd/image/upload/v1741585959/products/yzgm2gr1drpkzdjvbdsk.png" alt="Printhub Logo" class="logo">
-      <h2>Welcome to Print-Hub!</h2>
+      <img src="https://res.cloudinary.com/dekbabkjd/image/upload/v1762149632/logo1_meixqn.png" alt="Printhub Logo" class="logo">
+      <h2>Welcome to VGO Print!</h2>
     </div>
     <div class="content">
       <p>Hello,</p>
-      <p>Thank you for joining Print-Hub! We're excited to have you as our valued customer. Your account has been successfully created.</p>
+      <p>Thank you for joining VGO Print! We're excited to have you as our valued customer. Your account has been successfully created.</p>
       <div class="unique-id-container">
         <div class="id-label">Your Unique ID</div>
         <div class="unique-id">${userNumber}</div>
@@ -118,14 +106,14 @@ async function sendUserNumber(email, userNumber) {
       </div>
       <p class="login-info">Keep this ID safe and secure. It provides access to all your print projects and orders.</p>
       <div class="button-container">
-        <a href="https://print-hub-client.vercel.app/login" class="button">Login Now</a>
+        <a href="https://www.vgoprint.com/login" class="button">Login Now</a>
       </div>
       <div class="divider"></div>
       <p style="text-align:center;">Need help with your printing projects? Our team is ready to assist you!</p>
       <p style="text-align:center;">Contact us at: <a href="mailto:vrgovinda06@gmail.com" style="color:#3498db;">vrgovinda06@gmail.com</a></p>
     </div>
     <div class="footer">
-      <p>© 2025 Print-Hub All rights reserved.</p>
+      <p>© 2025 VGO Print. All rights reserved.</p>
       <p>B-22, Indira Nagar , Museum Road, Chaura Maidan Shimla - Himachal Pradesh 171004</p>
     </div>
   </div>
@@ -137,13 +125,13 @@ async function sendUserNumber(email, userNumber) {
     to: email,
     subject: 'Your Unique Id',
     html,
-    text: `Your Unique ID: ${userNumber}\nLogin: https://print-hub-client.vercel.app/login`,
+    text: `Your Unique ID: ${userNumber}\nLogin: https://www.vgoprint.com/login`,
   });
 }
 
 // Send Reset Password
 async function sendResetMail(email, resetToken) {
-  const BASE_URL =  "https://print-hub-server.onrender.com";
+  const BASE_URL =  "https://vgoprint-server.onrender.com";
   const resetLink = `${BASE_URL}/user/reset-password?token=${resetToken}`;
 
   const html = `<!DOCTYPE html>
@@ -169,12 +157,12 @@ async function sendResetMail(email, resetToken) {
 <body>
   <div class="email-container">
     <div class="header">
-      <img src="https://res.cloudinary.com/dekbabkjd/image/upload/v1741585959/products/yzgm2gr1drpkzdjvbdsk.png" alt="Printhub Logo" class="logo">
+      <img src="https://res.cloudinary.com/dekbabkjd/image/upload/v1762149632/logo1_meixqn.png" alt="Printhub Logo" class="logo">
       <h2>Reset Your Password</h2>
     </div>
     <div class="content">
       <p>Hello,</p>
-      <p>We received a request to reset the password for your Print-hub account. To proceed, click the button below:</p>
+      <p>We received a request to reset the password for your VGO Print account. To proceed, click the button below:</p>
       <div class="button-container">
         <a href="${resetLink}" class="button">Reset Password</a>
       </div>
@@ -187,10 +175,10 @@ async function sendResetMail(email, resetToken) {
         <p style="word-break:break-all; font-size:12px; color:#666;">${resetLink}</p>
       </div>
       <p>If you need any assistance, email <a href="mailto:vrgovinda06@gmail.com" style="color:#3498db;">vrgovinda06@gmail.com</a>.</p>
-      <p>Thank you,<br>The Print-Hub Team</p>
+      <p>Thank you,<br>The VGO Print Team</p>
     </div>
     <div class="footer">
-      <p>© 2025 Print-Hub. All rights reserved.</p>
+      <p>© 2025 VGO PRINT. All rights reserved.</p>
       <p>B-22, Indira Nagar , Museum Road, Chaura Maidan Shimla - Himachal Pradesh 171004</p>
     </div>
   </div>
